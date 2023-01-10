@@ -4,6 +4,12 @@ Changelog
 Only important changes are mentioned below. See `commit log <https://github.com/darklow/django-suit/commits/develop>`_, `closed issues <https://github.com/darklow/django-suit/issues?direction=desc&sort=updated&state=closed>`_ and `closed pull
 requests <https://github.com/darklow/django-suit/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aclosed>`_ for full changes.
 
+v0.2.29 (2023-01-10)
+--------------------
+
+* [Fix] Django 4.1.4 compatibility fixes.
+
+
 v0.2.28 (2019-10-02)
 --------------------
 
