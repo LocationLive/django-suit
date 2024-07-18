@@ -24,6 +24,46 @@
 
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
 
+<style>
+    #user-tools {
+        display: flex;
+        align-items: center;
+    }
+
+    .user-links {
+        display: flex;
+        align-items: center;
+    }
+
+    .separator {
+        margin: 0 5px;
+    }
+
+    .link-button {
+        background: none;
+        border: none;
+        color: #9FD0EB;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 1em;
+        font-family: inherit;
+        padding: 0;
+        margin: 0;
+    }
+
+    a, .link-button {
+        text-decoration: none;
+    }
+
+    a:hover, .link-button:hover {
+        text-decoration: underline;
+    }
+
+    #logout-form {
+        display: inline;
+    }
+</style>
+
 <!-- Sticky footer wrap -->
 <div id="wrap">
 
@@ -62,28 +102,34 @@
               </div>-->
             {% endblock %}
 
-            {% if user.is_active and user.is_staff %}
-              <div id="user-tools">
-                {% block welcome-msg %}
-                  {% trans 'Welcome,' %}
-                  <strong>
-                    {% filter force_escape %}
-                      {% firstof user.first_name user.username %}{% endfilter %}</strong>.
-                {% endblock %}
-                <span class="user-links">
-                {% block userlinks %}
-                  {% url 'django-admindocs-docroot' as docsroot %}
-                  {% if docsroot %}
+              {% if user.is_active and user.is_staff %}
+                  <div id="user-tools">
+                      {% block welcome-msg %}
+                          {% trans 'Welcome,' %}
+                          <strong>
+                              {% filter force_escape %}
+                                  {% firstof user.first_name user.username %}{% endfilter %}
+                          </strong>.
+                      {% endblock %}
+                      <span class="user-links">
+            {% block userlinks %}
+                {% url 'django-admindocs-docroot' as docsroot %}
+                {% if docsroot %}
                     <a href="{{ docsroot }}">{% trans 'Documentation' %}</a>
                     <span class="separator">|</span>
-                  {% endif %}
-                  <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
-                  <span class="separator">|</span>
-                  <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
-                {% endblock %}
-                </span>
-              </div>
-            {% endif %}
+                {% endif %}
+                <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
+                <span class="separator">|</span>
+                <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="link-button">
+                    {% translate 'Log out' %}
+                </button>
+            </form>
+            {% endblock %}
+        </span>
+                  </div>
+              {% endif %}
             {% block nav-global %}{% endblock %}
           </div>
         {% endif %}
